@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls node_modules/seedrandom/*.js)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls node_modules/reveal.js/plugin/highlight/*.css)",
+      "Bash(git checkout:*)"
+    ]
+  }
+}

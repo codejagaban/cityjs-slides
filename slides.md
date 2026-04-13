@@ -13,7 +13,7 @@ drawings:
   persist: false
 mdc: true
 clicks: 0
-preload: false
+preload: true
 glowSeed: 229
 routerMode: hash
 contextMenu: true

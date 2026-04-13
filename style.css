@@ -67,9 +67,6 @@ h6 {
   backdrop-filter: blur(10px);
   border: 1px solid #eee1;
   font-variant-ligatures: none;
-  max-height: 400px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
