@@ -7,7 +7,9 @@
       "Bash(git checkout:*)",
       "WebFetch(domain:uploadcare.com)",
       "Bash(curl -sL \"https://uploadcare.com\")",
-      "Bash(curl -sL \"https://ucarecdn.com/7e668407-0c26-498c-9ea0-8709a5343569/uploadcare-logo.png\" -o /Users/codejagaban/Developer/cityjs-slides/public/uploadcare-logo.png)"
+      "Bash(curl -sL \"https://ucarecdn.com/7e668407-0c26-498c-9ea0-8709a5343569/uploadcare-logo.png\" -o /Users/codejagaban/Developer/cityjs-slides/public/uploadcare-logo.png)",
+      "Bash(grep -n '^---$' /Users/codejagaban/Developer/cityjs-slides/slides.md)",
+      "Bash(grep -c '^<!--$' /Users/codejagaban/Developer/cityjs-slides/slides.md)"
     ]
   }
 }
