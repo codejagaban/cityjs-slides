@@ -3,6 +3,14 @@
   --slidev-code-background: #16161690 !important;
 }
 
+/* Cover slide — no dark overlay, show image as-is */
+.cover-slide {
+  background-color: transparent !important;
+}
+.cover-slide::before {
+  display: none !important;
+}
+
 .slidev-layout {
   font-size: 1rem;
 }
@@ -130,4 +138,26 @@ iframe {
   font-size: 0.7rem;
   opacity: 0.4;
   margin-top: 0.15rem;
+}
+
+
+.code-sample-sm .shiki,
+.code-sample-sm .shiki code {
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+}
+
+.code-sample-sx .shiki,
+.code-sample-sx .shiki code {
+  font-size: 8px !important;
+  line-height: 1.2 !important;
+}
+
+
+:is(input, textarea, select):user-invalid {
+  border: 1px solid #ef4444 !important;
+}
+
+:is(input, textarea, select):user-valid {
+  border: 1px solid #22c55e !important;
 }

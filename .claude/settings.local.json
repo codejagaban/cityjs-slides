@@ -4,7 +4,10 @@
       "Bash(ls node_modules/seedrandom/*.js)",
       "mcp__Claude_Preview__preview_start",
       "Bash(ls node_modules/reveal.js/plugin/highlight/*.css)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "WebFetch(domain:uploadcare.com)",
+      "Bash(curl -sL \"https://uploadcare.com\")",
+      "Bash(curl -sL \"https://ucarecdn.com/7e668407-0c26-498c-9ea0-8709a5343569/uploadcare-logo.png\" -o /Users/codejagaban/Developer/cityjs-slides/public/uploadcare-logo.png)"
     ]
   }
 }

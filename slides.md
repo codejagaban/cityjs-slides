@@ -1,5 +1,9 @@
 ---
-layout: center
+layout: cover
+background: /jamin.png
+backgroundSize: cover
+backgroundPosition: center
+class: cover-slide
 highlighter: shiki
 shiki:
   theme: material-theme-darker
@@ -8,7 +12,7 @@ colorSchema: dark
 transition: fade-out
 title: Replacing Form Libraries with Native Web APIs
 exportFilename: CityJS 2026 - Replacing Form Libraries
-lineNumbers: false
+lineNumbers: true
 drawings:
   persist: false
 mdc: true
@@ -17,20 +21,13 @@ preload: true
 glowSeed: 229
 routerMode: hash
 contextMenu: true
+comark: true
 fonts:
   sans: Bricolage Grotesque
   mono: JetBrains Mono
+addons:
+  - slidev-addon-react
 ---
-<div>
-
-<h1 flex flex-col leading-tight text-7xl font-extrabold>
-  <span>Replacing Form Libraries</span>
-    <span> with Native Web APIs</span>
-</h1>
-
-<p text-xl op-40 mt-3>Trust Jamin Okpukoro</p>
-
-</div>
 
 ---
 glowSeed: 14
@@ -42,7 +39,7 @@ glowSeed: 14
 <div v-click flex items-center gap-4>
   <div w-10 h-10 rounded-full bg-blue-500 bg-op-20 flex items-center justify-center font-bold text-blue-400>1</div>
   <div>
-    <div font-semibold text-lg>The Cost of "Convenience"</div>
+    <div font-semibold text-lg>Managing Form in React is Hard</div>
     <div text-sm op-50>Why we use form libraries</div>
   </div>
 </div>
@@ -66,7 +63,7 @@ glowSeed: 14
 <div v-click flex items-center gap-4>
   <div w-10 h-10 rounded-full bg-purple-500 bg-op-20 flex items-center justify-center font-bold text-purple-400>4</div>
   <div>
-      <div font-semibold text-lg>The Perfect Combo</div>
+      <div font-semibold text-lg>The Native Combo</div>
     <div text-sm op-50>Constraint Validation API + React 19 Form Actions</div>
   </div>
 </div>
@@ -80,7 +77,7 @@ glowSeed: 14
 </div>
 
 <div v-click flex items-center gap-4>
-  <div w-10 h-10 rounded-full bg-cyan-500 bg-op-20 flex items-center justify-center font-bold text-cyan-400>5</div>
+  <div w-10 h-10 rounded-full bg-cyan-500 bg-op-20 flex items-center justify-center font-bold text-zinc-400>6</div>
   <div>
     <div font-semibold text-lg>Migration Path</div>
     <div text-sm op-50>Something you can try out this weekend</div>
@@ -95,10 +92,10 @@ glowSeed: 42
 title: The Cost of "Convenience"
 ---
 <div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 01</p>
+<!-- <p text-sm uppercase tracking-widest op-40 mb-2>Chapter 01</p> -->
 
 <h1>
-  The Cost of<br>"Convenience"
+Managing Forms in React is Hard
 </h1>
 
 <p text-lg op-50 mt-4>Managing form state and validation logic in React is hard.</p>
@@ -107,6 +104,7 @@ title: The Cost of "Convenience"
 ---
 glowSeed: 42
 ---
+<!-- .slide: <speaker-note>Form libraries aren't always "bad"—sometimes they're necessary. But let's look at the real costs so you can make an informed choice.</speaker-note> -->
 # The Dependency Tax
 
 <div pt-6 grid grid-cols-3 gap-8 text-center>
@@ -148,66 +146,61 @@ layout: center
 </h1>
 
 <div v-click text-base op-40 text-center mt-8>
-What if we could get all the benefits of form libraries without the cost?
+What if we could build forms without using a form library?
 </div>
 
 ---
 glowSeed: 100
 ---
 
-#
-
-
-
-# The 2026 Browser Baseline
+<!-- .slide: <speaker-note>APIs like Constraint Validation and React 19 Form Actions are shipping everywhere *soon*—but always check caniuse.com for your audience.</speaker-note> -->
+# The 2026 Platform Baseline
 
 <div pt-4>
 
 | API | Chrome | Firefox | Safari | Replaces |
 |---|---|---|---|---|
-| Constraint Validation | ✓ | ✓ | ✓ | Yup, Zod, Joi |
-| React 19 Form Actions | ✓ | ✓ | ✓ | Formik, RHF state mgmt |
+| Constraint Validation | ✓ | ✓ | ✓ | Most validation use-cases |
+| React 19 Form Actions | ✓ | ✓ | ✓ | Most state management for forms |
 | `:user-valid` / `:user-invalid` | ✓ | ✓ | ✓ | touched / dirty state |
 
 </div>
 
 ---
-layout: center
-glowSeed: 88
-title: The Native Duo
----
-<div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 02</p>
-
-<h1>
-  The Native<br>Duo
-</h1>
-
-<p text-lg op-50 mt-4>Constraint Validation + React 19 Form Actions</p>
-</div>
-
----
 glowSeed: 88
 ---
+
+<!-- <p text-sm uppercase tracking-widest op-40 mb-2>Chapter 02</p> -->
+
 # The Constraint Validation API
 
 <div grid grid-cols-2 gap-8 pt-4>
 
-<div>
+<div v-click>
+
+<div class="code-sample-sx">
+```js
+<input
+  name="email" type="email"
+  required
+/>
+```
 
 ```js
 // ValidityState object
-input.validity.patternMismatch
-input.validity.rangeOverflow
-input.validity.typeMismatch
-input.validity.valueMissing
-
+{
+  "input.validity.badInput"
+  false "input.validity.patternMismatch"
+  false "input.validity.stepMismatch"
+  false "input.validity.valueMissing"
+  false "input.validity.typeMismatch"
+  false "input.validity.valid"
+  true
+}
 // Custom validation
-input.setCustomValidity(
-  "Passwords must match"
-);
+input.setCustomValidity("Email address must end with @example.com");
 ```
-
+</div>
 </div>
 
 <div flex flex-col gap-3 pt-2>
@@ -234,7 +227,7 @@ input.setCustomValidity(
 
 <div v-click flex items-center gap-2>
   <div i-ph:check-circle text-green-400 />
-  <span font-semibold text-green-300>Runs in the browser engine, not JS</span>
+  <span font-semibold text-green-300>Runs in the browser engine</span>
 </div>
 
 </div>
@@ -244,34 +237,35 @@ input.setCustomValidity(
 ---
 glowSeed: 100
 ---
+<!-- .slide: <speaker-note>Form Actions in React 19 aren't a magic bullet—they're a new primitive. Sometimes you still need imperative code for advanced cases.</speaker-note> -->
 # React 19 Form Actions
 
-<div grid grid-cols-2 gap-8 pt-2>
+<div grid grid-cols-2 gap-4 pt-2>
 
-<div>
+<div class="code-sample-sx">
+<div v-click  >
+
 
 ```jsx
-function SignupForm() {
-  async function signup(formData) {
-    const email = formData.get("email");
-    const pass = formData.get("pass");
-    await createAccount(email, pass);
-  }
+import { useActionState } from "react";
+
+function ContactForm() {
+  const [, formAction, isPending] = useActionState(contactAction, null);
 
   return (
-    <form action={signup}>
-      <input name="email" type="email"
-             required />
-      <input name="pass" type="password"
-             required minLength={8} />
-      <button type="submit">
-        Sign Up
+    <form action={formAction}>
+      <input name="name" required />
+      <input name="email" type="email" required />
+      <textarea name="message" required minLength={10} />
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Sending..." : "Send"}
       </button>
     </form>
   );
 }
-```
 
+```
+</div>
 </div>
 
 <div flex flex-col gap-3 pt-2>
@@ -293,11 +287,6 @@ function SignupForm() {
 
 <div v-click flex items-center gap-2>
   <div i-ph:check-circle text-blue-400 />
-  <span><code>useFormStatus</code> for submit button UX</span>
-</div>
-
-<div v-click flex items-center gap-2>
-  <div i-ph:check-circle text-blue-400 />
   <span>No controlled inputs = fewer re-renders</span>
 </div>
 
@@ -306,57 +295,425 @@ function SignupForm() {
 </div>
 
 ---
-glowSeed: 110
+glowSeed: 105
+transition: none
 ---
-# The Power Combo
 
-<p op-50 mb-2>useActionState + Constraint Validation</p>
+<div grid grid-cols-5 gap-8 pt-2>
 
-```jsx {all|3-4|5-11|15-16|17|all}
+<div grid-col-span-2>
+<React is="Form" />
+</div>
+
+<div grid-col-span-3>
+
+<div class="code-sample-sx">
+
+````md magic-move
+
+```jsx{14-17,24-29}
 import { useActionState } from "react";
 
-function ContactForm() {
-  const [state, action, isPending] = useActionState(
-    async (prev, formData) => {
-      const res = await fetch("/api/contact", {
-        method: "POST", body: formData,
-      });
-      if (!res.ok) return { error: "Server error" };
-      return { success: true };
-    }, null
-  );
+export default function ContactForm() {
+  const [state, action, isPending] = useActionState(contactAction, null);
 
   return (
-    <form action={action}>
-      <input name="email" type="email" required />
-      <input name="msg" required minLength={10} />
-      <button disabled={isPending}>
-        {isPending ? "Sending..." : "Send"}
-      </button>
-      {state?.error && <p>{state.error}</p>}
-    </form>
+    <div>
+      <form action={action}>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input id="name" name="name" required />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div>
+          <label htmlFor="message">Message</label>
+          <textarea id="message" name="message" required minLength={10} />
+        </div>
+
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Sending..." : "Send"}
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+```css
+:is(input, textarea, select):user-invalid {
+  border: 1px solid #ef4444;
+}
+
+:is(input, textarea, select):user-valid {
+  border: 1px solid #22c55e;
+}
+```
+````
+
+</div>
+
+</div>
+
+</div>
+
+---
+glowSeed: 106
+transition: none
+---
+
+<div grid grid-cols-5 gap-8 pt-2>
+
+<div grid-col-span-2>
+<React is="Form2" />
+</div>
+
+<div grid-col-span-3>
+
+<div class="code-sample-sx">
+
+````md magic-move
+
+```jsx{9-15,25-26,50}
+import { useActionState } from "react";
+
+export default function ContactForm() {
+  const [state, action, isPending] = useActionState(contactAction, null);
+
+  return (
+    <div>
+      <form
+        action={action}
+        onInvalid={(e) => {
+          e.target.setCustomValidity(formatError(e.target));
+        }}
+
+      >
+        <div>
+          <label htmlFor="name">Name</label>
+          <input id="name" name="name" required minLength={2} />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div>
+          <label htmlFor="message">Message</label>
+          <textarea id="message" name="message" required minLength={10} />
+        </div>
+
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Sending..." : "Send"}
+        </button>
+      </form>
+    </div>
   );
 }
 ```
 
+```jsx{3-25}
+import { useActionState } from 'react';
+
+function formatError(field) {
+  switch (field.name) {
+    case 'name':
+      if (field.validity.valueMissing) return 'Name is required';
+      if (field.validity.tooShort)
+        return `Name must be at least ${field.minLength} characters`;
+      if (field.validity.patternMismatch)
+        return 'Name should only contain letters and spaces';
+      return '';
+    case 'email':
+      if (field.validity.valueMissing) return 'Email is required';
+      if (field.validity.typeMismatch)
+        return 'Please enter a valid email address';
+      return '';
+    case 'message':
+      if (field.validity.valueMissing) return 'Message is required';
+      if (field.validity.tooShort)
+        return `Message must be at least ${field.minLength} characters`;
+      return '';
+    default:
+      return '';
+  }
+}
+
+export default function ContactForm() {
+  const [state, action, isPending] = useActionState(contactAction, null);
+
+  return (
+    <div>
+    <form
+      action={action}
+      onInvalid={(e) => {
+        e.target.setCustomValidity(formatError(e.target));
+      }}
+
+      >
+        <div>
+          <label htmlFor="name">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            required
+            minLength={2}
+            pattern="[A-Za-z\s]+"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="message">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            minLength={10}
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+        >
+          {isPending ? 'Sending...' : 'Send'}
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+````
+
+</div>
+
+</div>
+
+</div>
+
+---
+glowSeed: 106
+transition: none
+---
+
+<div grid grid-cols-5 gap-8 pt-2>
+<div grid-col-span-2>
+<React is="Form3" />
+</div>
+
+<div grid-col-span-3>
+
+<div class="code-sample-sx">
+
+````md magic-move {maxHeight:'600px'}
+
+```jsx{1,9}
+import { useActionState, useState } from "react";
+
+function formatError(field) {
+...
+}
+
+export default function ContactForm() {
+  const [state, action, isPending] = useActionState(contactAction, null);
+  const [errors, setErrors] = useState({});
+
+  return (
+    <div>
+      <form
+        action={action}
+        onInvalid={(e) => {
+          e.preventDefault();
+          const field = e.target;
+          field.setCustomValidity(formatError(field));
+        }}
+
+      >
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            required
+            minLength={2}
+            pattern="[A-Za-z\s]+"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div>
+          <label htmlFor="message">
+            Message
+          </label>
+          <textarea id="message" name="message" required minLength={10} />
+        </div>
+
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Sending..." : "Send"}
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+```jsx{19-22,26}
+import { useActionState, useState } from "react";
+
+function formatError(field) {
+...
+}
+
+export default function ContactForm() {
+  const [state, action, isPending] = useActionState(contactAction, null);
+  const [errors, setErrors] = useState({});
+
+  return (
+    <div>
+      <form
+        action={action}
+        onInvalid={(e) => {
+          e.preventDefault();
+          const field = e.target;
+          field.setCustomValidity(formatError(field));
+          setErrors((prev) => ({
+            ...prev,
+            [field.name]: field.validationMessage,
+          }));
+        }}
+
+      >
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            required
+            minLength={2}
+            pattern="[A-Za-z\s]+"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div>
+          <label htmlFor="message">
+            Message
+          </label>
+          <textarea id="message" name="message" required minLength={10} />
+        </div>
+
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Sending..." : "Send"}
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+```jsx{38,44,53}
+
+  return (
+    <div>
+      <form
+        action={action}
+        onInvalid={(e) => {
+          e.preventDefault();
+          const field = e.target;
+          field.setCustomValidity(formatError(field));
+          setErrors((prev) => ({
+            ...prev,
+            [field.name]: field.validationMessage,
+          }));
+        }}
+
+      >
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            required
+            minLength={2}
+            pattern="[A-Za-z\s]+"
+          />
+          {errors.name && <p>{errors.name}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" required />
+          {errors.email && <p>{errors.email}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="message">
+            Message
+          </label>
+          <textarea id="message" name="message" required minLength={10} />
+          {errors.message && <p>{errors.message}</p>}
+        </div>
+
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Sending..." : "Send"}
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+````
+
+</div>
+
+</div>
+
+</div>
 ---
 layout: center
 glowSeed: 140
-title: Performance Showdown
+title: The Perfect Combo
 ---
 <div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 03</p>
+<!-- <p text-sm uppercase tracking-widest op-40 mb-2>Chapter 03</p> -->
 
 <h1>
-  Performance<br>Showdown
+  The Native Combo
 </h1>
 
-<p text-lg op-50 mt-4>The benchmarks don't lie</p>
+<p text-lg op-50 mt-4>useActionState + Constraint Validation API</p>
 </div>
 
 ---
 glowSeed: 140
 ---
+<!-- .slide: <speaker-note>These numbers are from simple contact forms. Real-world apps can see even bigger savings, but always benchmark your own code.</speaker-note> -->
 # Bundle Size
 
 <p op-40 mb-4>Gzipped form-specific JavaScript</p>
@@ -383,6 +740,7 @@ glowSeed: 140
 ---
 glowSeed: 155
 ---
+<!-- .slide: <speaker-note>Native approaches can be much faster, especially on low-end devices. But always measure in your own context—these are just representative numbers.</speaker-note> -->
 # Total Blocking Time
 
 <p op-40 mb-2>Moto G Power, 4x CPU throttle</p>
@@ -414,6 +772,7 @@ glowSeed: 155
 ---
 glowSeed: 160
 ---
+<!-- .slide: <speaker-note>Native forms tend to score better, but libraries can be made accessible and performant too—it just takes more work.</speaker-note> -->
 # Lighthouse Scores
 
 <div pt-4>
@@ -433,118 +792,9 @@ glowSeed: 160
 </div>
 
 ---
-layout: center
-glowSeed: 180
-title: Before & After
----
-<div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 04</p>
-
-<h1>
-  Before<br>& After
-</h1>
-
-<p text-lg op-50 mt-4>Side-by-side code comparison</p>
-</div>
-
----
-glowSeed: 180
----
-# Before: React Hook Form + Zod
-
-```jsx {all|1-3|5-8|11-13|18-19|22-28|}
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-const schema = z.object({
-  email: z.string().email("Invalid email"),
-  message: z.string().min(10, "Min 10 chars"),
-});
-
-function ContactForm() {
-  const { register, handleSubmit,
-    formState: { errors, isSubmitting }
-  } = useForm({ resolver: zodResolver(schema) });
-
-  const onSubmit = async (data) => {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!res.ok) throw new Error("Server error");
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("email")} />
-      {errors.email && <span>{errors.email.message}</span>}
-      <textarea {...register("message")} />
-      {errors.message && <span>{errors.message.message}</span>}
-      <button disabled={isSubmitting}>
-        {isSubmitting ? "Sending..." : "Send"}
-      </button>
-    </form>
-  );
-}
-```
-
----
-glowSeed: 195
----
-# After: React 19 + Constraint Validation
-
-```jsx
-import { useActionState } from "react";
-
-function ContactForm() {
-  const [state, action, isPending] = useActionState(
-    async (prev, formData) => {
-      const res = await fetch("/api/contact", {
-        method: "POST", body: formData,
-      });
-      if (!res.ok) return { error: "Server error" };
-      return { success: true };
-    }, null
-  );
-
-  return (
-    <form action={action}>
-      <input name="email" type="email" required />
-      <textarea name="message" required minLength={10} />
-      <button disabled={isPending}>
-        {isPending ? "Sending..." : "Send"}
-      </button>
-      {state?.error && <p>{state.error}</p>}
-    </form>
-  );
-}
-```
-
-<div v-click text-center mt-4>
-  <span text-3xl font-bold text-green-400>35% less code</span>
-  <span text-lg op-50 ml-2>· zero extra kilobytes</span>
-</div>
-
----
-layout: center
-glowSeed: 210
-title: Real-World Patterns
----
-<div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 05</p>
-
-<h1>
-  Real-World<br>Patterns
-</h1>
-
-<p text-lg op-50 mt-4>Accessibility, migration, TypeScript, and edge cases</p>
-</div>
-
----
 glowSeed: 210
 ---
+<!-- .slide: <speaker-note>Native validation covers most accessibility needs out of the box, but test with real assistive tech and users. No silver bullets!</speaker-note> -->
 # Accessible by Default
 
 <div pt-4 grid grid-cols-2 gap-6>
@@ -552,16 +802,16 @@ glowSeed: 210
 <div v-click flex items-start gap-3>
   <div i-ph:speaker-high text-2xl text-blue-400 mt-1 />
   <div>
-    <div font-semibold>Screen readers announce errors automatically</div>
-    <div text-sm op-50>No custom aria wrappers needed</div>
+    <div font-semibold>Screen readers announce most errors automatically</div>
+    <div text-sm op-50>No custom aria wrappers needed for basic cases</div>
   </div>
 </div>
 
 <div v-click flex items-start gap-3>
   <div i-ph:code text-2xl text-blue-400 mt-1 />
   <div>
-    <div font-semibold><code>aria-invalid</code> set by the browser</div>
-    <div text-sm op-50>No JS needed</div>
+    <div font-semibold><code>aria-invalid</code> can be set by the browser</div>
+    <div text-sm op-50>For most basic validation, no JS needed</div>
   </div>
 </div>
 
@@ -569,7 +819,7 @@ glowSeed: 210
   <div i-ph:cursor-click text-2xl text-blue-400 mt-1 />
   <div>
     <div font-semibold>Focus moves to first invalid field</div>
-    <div text-sm op-50>On submit, automatically</div>
+    <div text-sm op-50>On submit, automatically (in most browsers)</div>
   </div>
 </div>
 
@@ -584,12 +834,13 @@ glowSeed: 210
 </div>
 
 <div v-click mt-6 p-3 rounded bg-green-900 bg-op-20 border border-green-500 border-op-30 text-center>
-  WCAG 2.1 AA compliance for free.
+  For most forms, you'll get WCAG 2.1 AA compliance "for free"—but always test with real users and assistive tech.
 </div>
 
 ---
 glowSeed: 220
 ---
+<!-- .slide: <speaker-note>You can style native validation states with pure CSS, no JS required. Use :user-invalid and :user-valid for a great UX.</speaker-note> -->
 # Styling Native Validation
 
 <div grid grid-cols-2 gap-8 pt-2>
@@ -630,6 +881,7 @@ input:user-valid {
 ---
 glowSeed: 230
 ---
+<!-- .slide: <speaker-note>Native validation covers most use-cases, but for advanced flows (wizards, async checks), you'll need a bit of JS—though not always a full library.</speaker-note> -->
 # When Native Falls Short
 
 <p op-40 mb-4>Be honest about the trade-offs</p>
@@ -678,7 +930,8 @@ glowSeed: 230
 ---
 glowSeed: 240
 ---
-# Migration Path
+<!-- .slide: <speaker-note>You don't have to migrate everything at once—try native APIs in new forms, and incrementally refactor old ones.</speaker-note> -->
+# Start Small, Migrate Gradually
 
 <p op-40 mb-4>You don't have to rewrite everything at once</p>
 
@@ -687,8 +940,8 @@ glowSeed: 240
 <div v-click flex items-start gap-4>
   <div w-8 h-8 rounded-full bg-blue-500 bg-op-20 flex items-center justify-center font-bold text-blue-400 shrink-0>1</div>
   <div>
-    <div font-semibold>New forms go native</div>
-    <div text-sm op-50>All new forms use useActionState + Constraint Validation. No new library imports.</div>
+    <div font-semibold>Try native APIs first</div>
+    <div text-sm op-50>Use useActionState + Constraint Validation API for new forms.</div>
   </div>
 </div>
 
@@ -703,8 +956,8 @@ glowSeed: 240
 <div v-click flex items-start gap-4>
   <div w-8 h-8 rounded-full bg-orange-500 bg-op-20 flex items-center justify-center font-bold text-orange-400 shrink-0>3</div>
   <div>
-    <div font-semibold>Extract shared patterns</div>
-    <div text-sm op-50>Build a small useFormAction hook. 30 lines replaces the library API.</div>
+    <div font-semibold>Create a shared hook</div>
+    <div text-sm op-50>Build a small `useFormAction` hook. that uses web APIs</div>
   </div>
 </div>
 
@@ -721,16 +974,15 @@ glowSeed: 240
 ---
 layout: center
 glowSeed: 260
-title: Less Code, Fewer Bugs
+title: It's Still the Web
 ---
 <div>
-<p text-sm uppercase tracking-widest op-40 mb-2>Chapter 06</p>
 
 <h1>
-  Less Code,<br>Fewer Bugs
+  It's Still the Web
 </h1>
 
-<p text-lg op-50 mt-4>The best code is the code you don't ship</p>
+<p text-lg op-50 mt-4>The platform already has what you need.<br>Web APIs should be your default.</p>
 </div>
 
 ---
@@ -743,5 +995,9 @@ title: Thanks
 <h1 text-5xl>Thanks</h1>
 
 <p text-lg op-50>Jamin Okpukoro · CityJS 2026</p>
+
+<div mt-4 flex items-center gap-2 op-40>
+  <img src="/uploadcare-logo.png" style="height: 1.5rem; filter: invert(1) hue-rotate(180deg);" />
+</div>
 
 </div>
