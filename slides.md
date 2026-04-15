@@ -35,7 +35,7 @@ Hey everyone! I'm Trust Jamin, and today we're going to talk about something tha
 We're going to look at how far native web APIs have come — and whether we still need form libraries for most of what we build.
 -->
 
-<!-- Slide 2: About Me -->
+
 ---
 layout: center
 glowSeed: 10
@@ -61,7 +61,7 @@ Quick intro — I'm a Developer Advocate at Uploadcare, where we handle file upl
 You can find me online as @codejagaban. Now let's dive in.
 -->
 
-<!-- Slide 3: Agenda -->
+
 ---
 glowSeed: 14
 ---
@@ -125,7 +125,7 @@ Here's the roadmap for today. We'll start by understanding why forms in React ar
 look at real performance numbers, and finish with a practical migration path you can start this weekend.
 -->
 
-<!-- Slide 4: Managing Forms in React is Hard -->
+
 ---
 layout: center
 glowSeed: 42
@@ -147,7 +147,7 @@ Let's be real — if you've ever built a non-trivial form in React, you know the
 That's exactly why form libraries exist. But let's look at what they actually cost us.
 -->
 
-<!-- Slide 5: The Dependency Tax -->
+
 ---
 glowSeed: 42
 ---
@@ -183,7 +183,7 @@ Formik: 13.9KB · React Hook Form: 10.4KB — gzipped, from production builds.
 <!-- <div v-click text-base op-40 text-center mt-8>
 Managing form state and validation logic in React is hard.
 </div> -->
-<!-- Slide 6: What if we could build forms with native APIs? -->
+
 ---
 glowSeed: 55
 layout: center
@@ -197,7 +197,7 @@ layout: center
 What if we could build forms without a form library?
 </div>
 
-<!-- Slide 6b: Pure HTML Form — No JavaScript -->
+
 ---
 glowSeed: 60
 ---
@@ -264,7 +264,7 @@ glowSeed: 60
 Before we write any React, look at this. A plain HTML form with required, type="email", and minlength attributes. The browser validates it, shows error messages, focuses the first invalid field — and it works with JavaScript completely disabled. No form library survives JS being turned off. This is the foundation everything else builds on.
 -->
 
-<!-- Slide 6c: What Year Is It? -->
+
 ---
 glowSeed: 65
 layout: center
@@ -307,7 +307,7 @@ We've been importing libraries to replace what HTML already does.
 Here's the thing that blew my mind when I first dug into this. The Constraint Validation API has been supported since Chrome 10 and Firefox 4 — that's 2011. Safari followed in 2012. This API is over 14 years old. We've been importing tens of kilobytes of JavaScript to replace something that HTML has done natively for over a decade.
 -->
 
-<!-- Slide 6d: What Libraries Reimplement -->
+
 ---
 glowSeed: 70
 ---
@@ -334,7 +334,7 @@ glowSeed: 70
 This is the slide I want you to really sit with. Every row in this table is something you've probably imported a library to do. Required validation — it's an HTML attribute. Touched and dirty state — CSS pseudo-classes handle it. Email validation — the browser has had type="email" forever. Pattern matching, min/max length, error messages, getting form values, resetting the form, focusing the first error — all built in. We've been reimplementing the web platform in JavaScript.
 -->
 
-<!-- Slide 6e: The FormData API -->
+
 ---
 glowSeed: 75
 ---
@@ -397,7 +397,7 @@ function handleSubmit(formData) {
 Here's another API most React developers overlook — FormData. One line: Object.fromEntries of new FormData gives you every form value as a plain object. No useState, no controlled inputs, no getValues. React 19 Form Actions receive FormData automatically, so you don't even need to construct it yourself. This replaces the entire values and state management layer of form libraries.
 -->
 
-<!-- Slide 7: Two-Layer Architecture -->
+
 ---
 glowSeed: 100
 ---
@@ -439,7 +439,7 @@ Layer 1 works in Vue, Svelte, Angular, or vanilla JS. Layer 2 is the React-speci
 Here's how to think about it. Layer one is pure Web APIs — Constraint Validation, FormData, CSS pseudo-classes. This works in any framework or no framework at all. If you're a Vue or Svelte developer, everything in layer one applies to you too. Layer two is React 19 specific — useActionState for async submits and pending state, useFormStatus for button UX. This is the glue that makes the Web APIs feel like a React form library. Two layers, zero dependencies.
 -->
 
-<!-- Slide 8: The Constraint Validation API -->
+
 ---
 glowSeed: 88
 ---
@@ -513,7 +513,7 @@ You can also call setCustomValidity to set your own error messages. The key thin
 It's faster than any JS validation library could ever be.
 -->
 
-<!-- Slide 9: React 19 Form Actions -->
+
 ---
 glowSeed: 100
 ---
@@ -582,7 +582,7 @@ When the user submits, React calls your function with native FormData — no con
 useActionState gives you a pending boolean for loading states and a way to return errors from the server. Notice how clean this code is compared to the useForm plus zodResolver plus handleSubmit pattern we're used to.
 -->
 
-<!-- Slide 10: Demo - Form 1 (Basic Form Action) -->
+
 ---
 glowSeed: 105
 transition: none
@@ -641,7 +641,7 @@ export default function ContactForm() {
 Here's a live demo. On the left you can see the form working — try submitting it empty. The browser handles validation natively.
 -->
 
-<!-- Slide 10b: Demo - Form 1 (CSS user-valid/user-invalid) -->
+
 ---
 glowSeed: 105
 transition: none
@@ -677,7 +677,7 @@ transition: none
 And with just a few lines of CSS using user-invalid and user-valid, we get real-time visual feedback — red borders for invalid fields, green for valid — with zero JavaScript. This replaces the entire "touched" and "dirty" state tracking that form libraries do.
 -->
 
-<!-- Slide 11: Demo - Form 2 (onInvalid + setCustomValidity) -->
+
 ---
 glowSeed: 106
 transition: none
@@ -741,7 +741,7 @@ export default function ContactForm() {
 Now let's customize the error messages. Instead of the browser's default tooltips, we use the onInvalid event to call setCustomValidity with our own formatError function.
 -->
 
-<!-- Slide 11b: Demo - Form 2 (formatError function) -->
+
 ---
 glowSeed: 106
 transition: none
@@ -795,7 +795,7 @@ function formatError(field) {
 This formatError function reads the ValidityState object — valueMissing, typeMismatch, tooShort — and returns a human-friendly message. The browser still handles when to validate. We just control the message.
 -->
 
-<!-- Slide 12: Demo - Form 3 (useState + preventDefault) -->
+
 ---
 glowSeed: 106
 transition: none
@@ -848,7 +848,7 @@ export default function ContactForm() {
 Now we want to render errors in our own UI instead of browser tooltips. First, we add useState for errors and call e.preventDefault() in onInvalid to suppress the native tooltip.
 -->
 
-<!-- Slide 12b: Demo - Form 3 (setErrors in onInvalid) -->
+
 ---
 glowSeed: 106
 transition: none
@@ -888,7 +888,7 @@ transition: none
 In the onInvalid handler, after setting the custom validity, we sync the validation message into React state. This is the bridge between the browser's validation and React's render cycle.
 -->
 
-<!-- Slide 12c: Demo - Form 3 (rendering inline errors) -->
+
 ---
 glowSeed: 106
 transition: none
@@ -936,7 +936,7 @@ transition: none
 Then in the JSX, we conditionally render error paragraphs beneath each field. One re-render per invalid field on submit — that's it. No form library, no schema library, just React and the browser working together.
 -->
 
-<!-- Slide 13: The Native Combo -->
+
 ---
 layout: center
 glowSeed: 140
@@ -956,7 +956,7 @@ title: The Native Combo
 So let's put it all together. useActionState handles your async server actions — submitting data, handling responses, tracking pending state. The Constraint Validation API handles all your client-side validation — required fields, patterns, types, custom rules. Together, they cover what Formik and React Hook Form do — with zero extra dependencies.
 -->
 
-<!-- Slide 14: Bundle Size -->
+
 ---
 glowSeed: 140
 ---
@@ -978,17 +978,17 @@ glowSeed: 140
 </div>
 
 <div v-click>
-  <div text-5xl font-extrabold text-green-400>1.1KB</div>
+  <div text-5xl font-extrabold text-green-400>2.8KB</div>
   <div text-base op-70 mt-2>Web APIs</div>
 </div>
 
 </div>
 
 <!--
-Let's talk bundle size from actual production builds — no schema libraries included, just the form library itself. Formik adds nearly 14 kilobytes gzipped. React Hook Form is about 10 kilobytes. Our approach? Just 1.1 kilobyte — and that's mostly React's own useActionState. The validation runs in the browser engine at zero cost.
+Let's talk bundle size from actual production builds — no schema libraries included, just the form library itself. Formik adds nearly 14 kilobytes gzipped. React Hook Form is about 10 kilobytes. Our approach? Just 2.8 kilobyte — and that's mostly React's own useActionState. The validation runs in the browser engine at zero cost.
 -->
 
-<!-- Slide 15: Interaction Performance (INP) -->
+
 ---
 glowSeed: 155
 ---
@@ -1026,7 +1026,7 @@ glowSeed: 155
 Interaction performance is how responsive the form feels while you're using it. Formik uses controlled inputs — every keystroke triggers a state update, validation, and re-render. Both React Hook Form and our native approach use uncontrolled inputs, so typing performance is identical — the browser handles the keystroke directly, no React work. The real win with native isn't typing speed over RHF — it's getting the same performance with zero library code.
 -->
 
-<!-- Slide 16: Runtime Re-renders -->
+
 ---
 glowSeed: 160
 ---
@@ -1061,7 +1061,7 @@ glowSeed: 160
 Here's the re-render story. Formik re-renders the entire form on every single keystroke because it uses controlled inputs — that adds up fast. React Hook Form is smarter with uncontrolled inputs, so it mostly re-renders on submit and error display. Our native approach is similar — one setState call per invalid field on submit. During typing, neither RHF nor native triggers React re-renders. The big gap is between controlled (Formik) and uncontrolled (everything else).
 -->
 
-<!-- Slide 17: Accessible by Default -->
+
 ---
 glowSeed: 210
 ---
@@ -1112,7 +1112,7 @@ glowSeed: 210
 Let's talk accessibility honestly. If you use the browser's native validation tooltips — no preventDefault — screen readers announce errors automatically and focus moves to the first invalid field. That's free. But once you suppress native tooltips to render your own error UI — which we did — you need to add aria-live to your error elements so screen readers pick them up, and you need to manage focus yourself. Native gives you a head start, but custom UI always requires a11y work. Always test with real assistive tech.
 -->
 
-<!-- Slide 18: Styling Native Validation -->
+
 ---
 glowSeed: 220
 ---
@@ -1158,7 +1158,7 @@ input:user-valid {
 Here's a CSS feature many people don't know about — user-invalid and user-valid pseudo-classes. Unlike the old invalid pseudo-class which fires immediately on page load, user-invalid only fires AFTER the user has interacted with the field. No more flash of red errors on a fresh form. And user-valid gives real-time positive feedback as the user types. This completely replaces the dirty and touched state tracking that form libraries provide — with zero JavaScript.
 -->
 
-<!-- Slide 19: When Native Falls Short -->
+
 ---
 glowSeed: 230
 ---
@@ -1211,7 +1211,7 @@ glowSeed: 230
 I want to be honest about the limitations. Dynamic field arrays — like adding multiple addresses — still need manual state management. Multi-step wizard forms with cross-step validation need your own logic. Async validation like checking if a username is taken requires custom JavaScript. And dependent field logic needs JS state. But here's the thing — native APIs cover most real-world forms.
 -->
 
-<!-- Slide 20: Start Small, Migrate Gradually -->
+
 ---
 glowSeed: 240
 ---
@@ -1250,17 +1250,17 @@ glowSeed: 240
   <div w-8 h-8 rounded-full bg-purple-500 bg-op-20 flex items-center justify-center font-bold text-purple-400 shrink-0>4</div>
   <div>
     <div font-semibold>Tackle complex forms last</div>
-    <div text-sm op-50>Wizards and dynamic arrays. Keep the library temporarily if needed.</div>
+    <div text-sm op-50>Wizards and dynamic arrays. Keep the library if you need to — there's no shame in a gradual migration.</div>
   </div>
 </div>
 
 </div>
 
 <!--
-If you're convinced, here's how to start. Step one — use native APIs for all new forms going forward. No new library imports. Step two — convert your simple forms first. Login, contact, newsletter — low risk, high visibility wins. Step three — as patterns emerge, extract a shared useFormAction hook. About 30 lines of code can replace the library's API surface. Step four — tackle the complex forms last. Wizards and dynamic arrays. Keep the library temporarily if you need to — there's no shame in a gradual migration.
+If you're convinced, here's how to start. Step one — use native APIs for all new forms going forward. No new library imports. Step two — convert your simple forms first. Login, contact, newsletter — low risk, high visibility wins. Step three — as patterns emerge, extract a shared useFormAction hook. About 30 lines of code can replace the library's API surface. Step four — tackle the complex forms last. Wizards and dynamic arrays. Keep the library if you need to — there's no shame in a gradual migration.
 -->
 
-<!-- Slide 21: It's Still the Web -->
+
 ---
 layout: center
 glowSeed: 260
@@ -1281,7 +1281,7 @@ title: It's Still the Web
 I want to leave you with this thought. We sometimes forget that React is just a library running on top of the web platform. The platform has had powerful form APIs for years — we just stopped using them when form libraries became popular. Web APIs should be your default. Reach for a library when you've outgrown what the platform offers, not before.
 -->
 
-<!-- Slide 22: Thanks -->
+
 ---
 layout: center
 glowSeed: 300
