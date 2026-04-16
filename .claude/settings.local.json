@@ -9,7 +9,12 @@
       "Bash(curl -sL \"https://uploadcare.com\")",
       "Bash(curl -sL \"https://ucarecdn.com/7e668407-0c26-498c-9ea0-8709a5343569/uploadcare-logo.png\" -o /Users/codejagaban/Developer/cityjs-slides/public/uploadcare-logo.png)",
       "Bash(grep -n '^---$' /Users/codejagaban/Developer/cityjs-slides/slides.md)",
-      "Bash(grep -c '^<!--$' /Users/codejagaban/Developer/cityjs-slides/slides.md)"
+      "Bash(grep -c '^<!--$' /Users/codejagaban/Developer/cityjs-slides/slides.md)",
+      "Bash(mv Form2.jsx _tmp_Form2.jsx)",
+      "Bash(mv Form3.jsx _tmp_Form3.jsx)",
+      "Bash(mv Form4.jsx _tmp_Form4.jsx)",
+      "Bash(mv Form5.jsx _tmp_Form5.jsx)",
+      "Bash(mv _tmp_Form5.jsx Form2.jsx)"
     ]
   }
 }

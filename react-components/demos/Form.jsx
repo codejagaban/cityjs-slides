@@ -11,6 +11,7 @@ export default function ContactDemoStep1Simple() {
   return (
     <div style={cardStyle}>
       <form action={action} style={formStyle}>
+        <p>Simple validation</p>
         <div style={fieldGroupStyle}>
           <label htmlFor="name" style={labelStyle}>
             Name

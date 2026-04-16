@@ -1,7 +1,7 @@
-import { useActionState, useState } from 'react';
+import { useActionState } from 'react';
 
 async function contactAction(previousState, formData) {
-  // Replace with your real submit logic.
+  await new Promise((resolve) => setTimeout(resolve, 400));
   return previousState;
 }
 
@@ -31,70 +31,53 @@ function formatError(field) {
 
 export default function Form3() {
   const [, action, isPending] = useActionState(contactAction, null);
-  const [errors, setErrors] = useState({});
-
-  function handleInvalid(e) {
-    e.preventDefault();
-    const field = e.target;
-    const error = formatError(field);
-    field.setCustomValidity(error);
-    setErrors((prev) => ({
-      ...prev,
-      [field.name]: error,
-    }));
-  }
-
-  function handleInput(e) {
-    const field = e.target;
-    field.setCustomValidity('');
-    if (errors[field.name]) {
-      setErrors((prev) => ({ ...prev, [field.name]: '' }));
-    }
-  }
 
   return (
     <div style={cardStyle}>
       <form
         action={action}
+        onInvalid={(e) => {
+          e.target.setCustomValidity(formatError(e.target));
+        }}
+        onInput={(e) => {
+          e.target.setCustomValidity('');
+        }}
         style={formStyle}
-        onInvalid={handleInvalid}
-        onInput={handleInput}
       >
+        <h6>Custom message</h6>
         <div style={fieldGroupStyle}>
-          <label htmlFor="name-3" style={labelStyle}>
+          <label htmlFor="name-2" style={labelStyle}>
             Name
           </label>
           <input
-            id="name-3"
+            id="name-2"
             name="name"
             required
             minLength={2}
             pattern="[A-Za-z\s]+"
             style={fieldStyle}
           />
-          {errors.name && <p style={errorStyle}>{errors.name}</p>}
         </div>
 
         <div style={fieldGroupStyle}>
-          <label htmlFor="email-3" style={labelStyle}>
+          <label htmlFor="email-2" style={labelStyle}>
             Email
           </label>
           <input
-            id="email-3"
+            id="email-2"
             name="email"
             type="email"
             required
             style={fieldStyle}
           />
-          {errors.email && <p style={errorStyle}>{errors.email}</p>}
         </div>
 
         <div style={fieldGroupStyle}>
-          <label htmlFor="message-3" style={labelStyle}>
+          <label htmlFor="message-2" style={labelStyle}>
             Message
           </label>
           <textarea
-            id="message-3"
+            id="message-2"
             name="message"
             required
             minLength={10}
@@ -104,7 +87,6 @@ export default function Form3() {
               resize: 'vertical',
             }}
           />
-          {errors.message && <p style={errorStyle}>{errors.message}</p>}
         </div>
 
         <button
@@ -154,12 +136,6 @@ const fieldStyle = {
   fontFamily: 'inherit',
   outline: 'none',
   transition: 'border-color 0.2s',
-};
-
-const errorStyle = {
-  color: '#f87171',
-  fontSize: 12,
-  margin: 0,
 };
 
 const buttonStyle = (disabled) => ({

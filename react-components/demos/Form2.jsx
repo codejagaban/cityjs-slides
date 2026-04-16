@@ -5,77 +5,53 @@ async function contactAction(previousState, formData) {
   return previousState;
 }
 
-function formatError(field) {
-  switch (field.name) {
-    case 'name':
-      if (field.validity.valueMissing) return 'Name is required';
-      if (field.validity.tooShort)
-        return `Name must be at least ${field.minLength} characters`;
-      if (field.validity.patternMismatch)
-        return 'Name should only contain letters and spaces';
-      return '';
-    case 'email':
-      if (field.validity.valueMissing) return 'Email is required';
-      if (field.validity.typeMismatch)
-        return 'Please enter a valid email address';
-      return '';
-    case 'message':
-      if (field.validity.valueMissing) return 'Message is required';
-      if (field.validity.tooShort)
-        return `Message must be at least ${field.minLength} characters`;
-      return '';
-    default:
-      return '';
-  }
-}
-
-export default function ContactDemoForm2() {
+export default function Form2() {
   const [, action, isPending] = useActionState(contactAction, null);
 
   return (
-    <div style={cardStyle}>
-      <form
-        action={action}
-        onInvalid={(e) => {
-          e.target.setCustomValidity(formatError(e.target));
-        }}
-        onInput={(e) => {
-          e.target.setCustomValidity('');
-        }}
-        style={formStyle}
-      >
-        <div style={fieldGroupStyle}>
-          <label htmlFor="name-2" style={labelStyle}>
+    <div style={cardStyle} className="css-form">
+      <style>{cssValidation}</style>
+      <form action={action} style={formStyle}>
+        <h6>Simple validation but with custom messages</h6>
+        <fieldset style={fieldsetStyle}>
+          <label htmlFor="name-5" style={labelStyle}>
             Name
           </label>
           <input
-            id="name-2"
+            id="name-5"
             name="name"
             required
             minLength={2}
+            pattern="[A-Za-z\s]+"
             style={fieldStyle}
           />
-        </div>
+          <span aria-live="polite" style={errorStyle}>
+            Name is required
+          </span>
+        </fieldset>
 
-        <div style={fieldGroupStyle}>
-          <label htmlFor="email-2" style={labelStyle}>
+        <fieldset style={fieldsetStyle}>
+          <label htmlFor="email-5" style={labelStyle}>
             Email
           </label>
           <input
-            id="email-2"
+            id="email-5"
             name="email"
             type="email"
             required
             style={fieldStyle}
           />
-        </div>
+          <span aria-live="polite" style={errorStyle}>
+            Valid email required
+          </span>
+        </fieldset>
 
-        <div style={fieldGroupStyle}>
-          <label htmlFor="message-2" style={labelStyle}>
+        <fieldset style={fieldsetStyle}>
+          <label htmlFor="message-5" style={labelStyle}>
             Message
           </label>
           <textarea
-            id="message-2"
+            id="message-5"
             name="message"
             required
             minLength={10}
@@ -85,7 +61,10 @@ export default function ContactDemoForm2() {
               resize: 'vertical',
             }}
           />
-        </div>
+          <span aria-live="polite" style={errorStyle}>
+            Message is required (min 10 chars)
+          </span>
+        </fieldset>
 
         <button
           type="submit"
@@ -99,6 +78,26 @@ export default function ContactDemoForm2() {
   );
 }
 
+const cssValidation = `
+  .css-form [aria-live="polite"] {
+    display: none;
+  }
+
+  .css-form fieldset:has(:user-invalid) [aria-live="polite"] {
+    display: block;
+  }
+
+  .css-form fieldset:has(:user-invalid) input,
+  .css-form fieldset:has(:user-invalid) textarea {
+    border-color: #ef4444 !important;
+  }
+
+  .css-form fieldset:has(:user-valid) input,
+  .css-form fieldset:has(:user-valid) textarea {
+    border-color: #22c55e !important;
+  }
+`;
+
 const cardStyle = {
   padding: 24,
   background: 'rgba(0,0,0,.3)',
@@ -111,7 +110,10 @@ const formStyle = {
   gap: 12,
 };
 
-const fieldGroupStyle = {
+const fieldsetStyle = {
+  border: 'none',
+  padding: 0,
+  margin: 0,
   display: 'flex',
   flexDirection: 'column',
   gap: 4,
@@ -134,6 +136,12 @@ const fieldStyle = {
   fontFamily: 'inherit',
   outline: 'none',
   transition: 'border-color 0.2s',
+};
+
+const errorStyle = {
+  color: '#f87171',
+  fontSize: 12,
+  margin: 0,
 };
 
 const buttonStyle = (disabled) => ({

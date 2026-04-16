@@ -7,12 +7,14 @@
 .cover-slide {
   background-color: transparent !important;
 }
+
 .cover-slide::before {
   display: none !important;
 }
 
 .slidev-layout {
   font-size: 1rem;
+  padding: 1.5rem;
 }
 
 .slidev-layout h1 {

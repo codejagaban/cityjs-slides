@@ -1,4 +1,4 @@
-import { useActionState, useState } from 'react';
+import { useActionState, useRef } from 'react';
 
 async function contactAction(previousState, formData) {
   // Replace with your real submit logic.
@@ -29,33 +29,54 @@ function formatError(field) {
   }
 }
 
-export default function Form4() {
+export default function Form5() {
   const [, action, isPending] = useActionState(contactAction, null);
-  const [errors, setErrors] = useState({});
 
-  function handleInvalid(e) {
-    e.preventDefault();
-    const field = e.target;
-    const error = formatError(field);
-    field.setCustomValidity(error);
-    setErrors((prev) => ({
-      ...prev,
-      [field.name]: error,
-    }));
+  const errorRefs = useRef({});
+
+  function setErrorRef(name) {
+    return (node) => {
+      errorRefs.current[name] = node;
+    };
   }
 
-  function handleBlur(e) {
+  function setFieldError(field) {
+    const error = formatError(field);
+    field.setCustomValidity(error);
+    const errorEl = errorRefs.current[field.name];
+    if (errorEl) errorEl.textContent = error;
+  }
+
+  // function handleInvalid(e) {
+  //   e.preventDefault();
+  //   setFieldError(e.target);
+  // }
+
+  // function handleBlur(e) {
+  //   const field = e.target;
+  //   field.setCustomValidity('');
+  //   const errorEl = errorRefs.current[field.name];
+  //   if (!errorEl) return;
+
+  //   if (field.checkValidity()) {
+  //     errorEl.textContent = '';
+  //   } else {
+  //     const error = formatError(field);
+  //     field.setCustomValidity(error);
+  //     errorEl.textContent = error;
+  //   }
+  // }
+
+  function validate(e) {
+    e.preventDefault();
     const field = e.target;
     field.setCustomValidity('');
-    if (field.checkValidity()) {
-      if (errors[field.name]) {
-        setErrors((prev) => ({ ...prev, [field.name]: '' }));
-      }
-    } else {
-      const error = formatError(field);
-      field.setCustomValidity(error);
-      setErrors((prev) => ({ ...prev, [field.name]: error }));
-    }
+    const errorEl = errorRefs.current[field.name];
+    if (!errorEl) return;
+
+    const error = field.checkValidity() ? '' : formatError(field);
+    field.setCustomValidity(error);
+    errorEl.textContent = error;
   }
 
   return (
@@ -66,42 +87,50 @@ export default function Form4() {
         onInvalid={handleInvalid}
         onBlur={handleBlur}
       >
-        <h6>Custom message with state management</h6>
+        <p>Custom message with ref </p>
         <div style={fieldGroupStyle}>
-          <label htmlFor="name-3" style={labelStyle}>
+          <label htmlFor="name-4" style={labelStyle}>
             Name
           </label>
           <input
-            id="name-3"
+            id="name-4"
             name="name"
             required
             minLength={2}
             pattern="[A-Za-z\s]+"
             style={fieldStyle}
           />
-          {errors.name && <p style={errorStyle}>{errors.name}</p>}
+          <span
+            ref={setErrorRef('name')}
+            style={errorStyle}
+            aria-live="polite"
+          />
         </div>
 
         <div style={fieldGroupStyle}>
-          <label htmlFor="email-3" style={labelStyle}>
+          <label htmlFor="email-4" style={labelStyle}>
             Email
           </label>
           <input
-            id="email-3"
+            id="email-4"
             name="email"
             type="email"
             required
             style={fieldStyle}
           />
-          {errors.email && <p style={errorStyle}>{errors.email}</p>}
+          <span
+            ref={setErrorRef('email')}
+            style={errorStyle}
+            aria-live="polite"
+          />
         </div>
 
         <div style={fieldGroupStyle}>
-          <label htmlFor="message-3" style={labelStyle}>
+          <label htmlFor="message-4" style={labelStyle}>
             Message
           </label>
           <textarea
-            id="message-3"
+            id="message-4"
             name="message"
             required
             minLength={10}
@@ -111,7 +140,11 @@ export default function Form4() {
               resize: 'vertical',
             }}
           />
-          {errors.message && <p style={errorStyle}>{errors.message}</p>}
+          <span
+            ref={setErrorRef('message')}
+            style={errorStyle}
+            aria-live="polite"
+          />
         </div>
 
         <button
