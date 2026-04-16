@@ -251,8 +251,7 @@ glowSeed: 100
 <div class="code-sample-sx">
 <div v-click  >
 
-
-```jsx
+```jsx{1,4,7,12}
 import { useActionState } from "react";
 
 function ContactForm() {
@@ -321,7 +320,7 @@ transition: none
 
 ````md magic-move
 
-```jsx{14-17,24-29}
+```jsx{11,16,21}
 import { useActionState } from "react";
 
 export default function ContactForm() {
@@ -369,31 +368,9 @@ export default function ContactForm() {
 </div>
 
 </div>
----
-layout: center
-glowSeed: 140
-title: The Native Combo
----
-<div>
-<!-- <p text-sm uppercase tracking-widest op-40 mb-2>Chapter 03</p> -->
-
-<h1>
-  The Native Combo
-</h1>
-
-<p text-lg op-50 mt-4>useActionState + Constraint Validation API</p>
-</div>
-
-<!--
-So let's put it all together. useActionState handles your async server actions — submitting data, handling responses, tracking pending state. The Constraint Validation API handles all your client-side validation — required fields, patterns, types, custom rules. Together, they cover what Formik, React Hook Form, Yup, and Zod do — at zero kilobytes.
--->
-<!--
-Here's a live demo. On the left you can see the form working — try submitting it empty. The browser handles validation natively. And with just a few lines of CSS using user-invalid and user-valid, we get real-time visual feedback — red borders for invalid fields, green for valid — with zero JavaScript. This replaces the entire "touched" and "dirty" state tracking that form libraries do.
-
--->
 
 ---
-glowSeed: 106
+glowSeed: 105
 transition: none
 ---
 
@@ -407,10 +384,78 @@ transition: none
 
 <div class="code-sample-sx">
 
+```html{12-14}
+<fieldset>
+  <label htmlFor="name">
+    Name
+  </label>
+  <input
+    id="name"
+    name="name"
+    required
+    minLength={2}
+    pattern="[A-Za-z\s]+"
+  />
+  <span aria-live="polite">
+    Name is required
+  </span>
+</fieldset>
+```
+
+```css{2,7,12}
+/* Error messages hidden by default */
+[aria-live='polite'] { display: none; }
+
+/* Show error when field is invalid
+   after user interaction */
+fieldset:has(:user-invalid) {
+  [aria-live='polite'] { display: block; }
+}
+
+/* Red border on invalid fields */
+fieldset:has(:user-invalid) input {
+  border: 2px solid red;
+}
+
+/* Green border on valid fields */
+fieldset:has(:user-valid) input {
+  border: 2px solid green;
+}
+```
+
+</div>
+
+</div>
+
+</div>
+
+<!--
+Here's something wild — we can show and hide custom error messages using only CSS. We put the error text in a span with aria-live, hide it by default, then use the :has selector combined with :user-invalid to show it only after the user interacts with the field. No JavaScript, no state, no re-renders. The :user-invalid pseudo-class is key — it only fires after user interaction, not on page load.
+-->
+
+---
+glowSeed: 106
+transition: none
+---
+
+<div grid grid-cols-5 gap-8 pt-2>
+
+<div grid-col-span-2>
+<React is="Form3" />
+</div>
+
+<div grid-col-span-3>
+
+<div class="code-sample-sx">
+
 ````md magic-move
 
-```jsx{9-15,25-26,50}
-import { useActionState } from "react";
+```jsx{14-16}
+import { useActionState } from 'react';
+
+async function contactAction(previousState, formData) {
+  ...
+}
 
 export default function ContactForm() {
   const [state, action, isPending] = useActionState(contactAction, null);
@@ -422,70 +467,6 @@ export default function ContactForm() {
         onInvalid={(e) => {
           e.target.setCustomValidity(formatError(e.target));
         }}
-
-      >
-        <div>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" required minLength={2} />
-        </div>
-
-        <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" required />
-        </div>
-
-        <div>
-          <label htmlFor="message">Message</label>
-          <textarea id="message" name="message" required minLength={10} />
-        </div>
-
-        <button type="submit" disabled={isPending}>
-          {isPending ? "Sending..." : "Send"}
-        </button>
-      </form>
-    </div>
-  );
-}
-```
-
-```jsx{3-25}
-import { useActionState } from 'react';
-
-function formatError(field) {
-  switch (field.name) {
-    case 'name':
-      if (field.validity.valueMissing) return 'Name is required';
-      if (field.validity.tooShort)
-        return `Name must be at least ${field.minLength} characters`;
-      if (field.validity.patternMismatch)
-        return 'Name should only contain letters and spaces';
-      return '';
-    case 'email':
-      if (field.validity.valueMissing) return 'Email is required';
-      if (field.validity.typeMismatch)
-        return 'Please enter a valid email address';
-      return '';
-    case 'message':
-      if (field.validity.valueMissing) return 'Message is required';
-      if (field.validity.tooShort)
-        return `Message must be at least ${field.minLength} characters`;
-      return '';
-    default:
-      return '';
-  }
-}
-
-export default function ContactForm() {
-  const [state, action, isPending] = useActionState(contactAction, null);
-
-  return (
-    <div>
-    <form
-      action={action}
-      onInvalid={(e) => {
-        e.target.setCustomValidity(formatError(e.target));
-      }}
-
       >
         <div>
           <label htmlFor="name">
@@ -511,28 +492,35 @@ export default function ContactForm() {
             required
           />
         </div>
-
-        <div>
-          <label htmlFor="message">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            minLength={10}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending ? 'Sending...' : 'Send'}
-        </button>
+        {/* Rest part of form... */}
       </form>
     </div>
   );
+}
+```
+```jsx
+function formatError(field) {
+  switch (field.name) {
+    case 'name':
+      if (field.validity.valueMissing) return 'Name is required';
+      if (field.validity.tooShort)
+        return `Name must be at least ${field.minLength} characters`;
+      if (field.validity.patternMismatch)
+        return 'Name should only contain letters and spaces';
+      return '';
+    case 'email':
+      if (field.validity.valueMissing) return 'Email is required';
+      if (field.validity.typeMismatch)
+        return 'Please enter a valid email address';
+      return '';
+    case 'message':
+      if (field.validity.valueMissing) return 'Message is required';
+      if (field.validity.tooShort)
+        return `Message must be at least ${field.minLength} characters`;
+      return '';
+    default:
+      return '';
+  }
 }
 ```
 ````
@@ -554,7 +542,7 @@ transition: none
 
 <div grid grid-cols-5 gap-8 pt-2>
 <div grid-col-span-2>
-<React is="Form3" />
+<React is="Form4" />
 </div>
 
 <div grid-col-span-3>
@@ -563,12 +551,8 @@ transition: none
 
 ````md magic-move {maxHeight:'600px'}
 
-```jsx{1,9}
+```jsx{1,5,12}
 import { useActionState, useState } from "react";
-
-function formatError(field) {
-...
-}
 
 export default function ContactForm() {
   const [state, action, isPending] = useActionState(contactAction, null);
@@ -616,12 +600,8 @@ export default function ContactForm() {
   );
 }
 ```
-```jsx{19-22,26}
+```jsx{15-18}
 import { useActionState, useState } from "react";
-
-function formatError(field) {
-...
-}
 
 export default function ContactForm() {
   const [state, action, isPending] = useActionState(contactAction, null);
@@ -673,7 +653,7 @@ export default function ContactForm() {
   );
 }
 ```
-```jsx{38,44,53}
+```jsx{25,31,39}
 
   return (
     <div>
@@ -735,12 +715,172 @@ export default function ContactForm() {
 <!--
 And here's the final step — rendering errors in our own UI instead of browser tooltips. We add useState for errors, and in the onInvalid handler we sync the validation message to React state. Then in the JSX, we conditionally render error paragraphs. This is one re-render per invalid field on submit — that's it. No form library, no schema library, just React and the browser working together.
 
-For optimization, you could batch these updates or use a useRef hook to avoid multiple re-renders,
+For optimization, you could use a useRef hook to avoid multiple re-renders,
 but the point is — you don't need a library to do this. The native APIs give you everything you need to build a fully featured form experience with just a few lines of code.
 -->
 
 <!-- “React encourages declarative UI, but it doesn’t forbid imperative code.
 In this case, I’m intentionally keeping form state out of React to avoid unnecessary renders and to lean on native browser behavior.” -->
+
+---
+glowSeed: 109
+---
+
+# Validation Flows Compared
+
+<div pt-2>
+<div text-xs uppercase tracking-wide op-40 mb-4>Form 1 — Browser Default</div>
+
+```mermaid
+flowchart LR
+  A[Form submitted] --> B[Browser validation]
+  B -->|invalid| C[Native tooltip]
+  B -->|valid| D[Submit event fired]
+  style C fill:#854d0e,stroke:#ca8a04,color:#fef08a
+  style D fill:#14532d,stroke:#22c55e,color:#86efac
+```
+
+</div>
+
+<!--
+Form 1 — the browser does everything. Submit triggers validation, invalid fields get native tooltips, valid forms fire the submit event. Zero code needed.
+-->
+
+---
+glowSeed: 109
+---
+
+# Validation Flows Compared
+
+<div pt-2>
+<div text-xs uppercase tracking-wide op-40 mb-4>Form 2 — CSS Only</div>
+
+```mermaid
+flowchart LR
+  A[User interacts] --> B[user-invalid fires]
+  B --> C[has selector matches]
+  C --> D[span displayed via CSS]
+  style B fill:#581c87,stroke:#a855f7,color:#e9d5ff
+  style D fill:#14532d,stroke:#22c55e,color:#86efac
+```
+
+<div text-sm op-50 mt-2>Zero JavaScript — CSS handles everything after user interaction.</div>
+</div>
+
+<!--
+Form 2 — pure CSS. When the user interacts with a field, the :user-invalid pseudo-class fires. The :has() selector on the parent fieldset matches and shows the error span. No JavaScript, no state, no re-renders.
+-->
+
+---
+glowSeed: 109
+---
+
+# Validation Flows Compared
+
+<div pt-2>
+<div text-xs uppercase tracking-wide op-40 mb-4>Form 3 — Custom Tooltip Messages</div>
+
+```mermaid
+flowchart LR
+  A[Form submitted] --> B[Browser validation]
+  B -->|invalid| C[onInvalid event]
+  C --> D[setCustomValidity]
+  D --> E[Custom tooltip shown]
+  style D fill:#7c2d12,stroke:#f97316,color:#fed7aa
+  style E fill:#854d0e,stroke:#ca8a04,color:#fef08a
+```
+
+</div>
+
+<!--
+Form 3 — we intercept the onInvalid event and call setCustomValidity with our own message from formatError. The browser still shows a tooltip, but with our custom text instead of the default.
+-->
+
+---
+glowSeed: 109
+---
+
+# Validation Flows Compared
+
+<div pt-2>
+<div text-xs uppercase tracking-wide op-40 mb-4>Form 4 — useState Inline Errors</div>
+
+```mermaid
+flowchart LR
+  A[Form submitted] --> B[onInvalid event]
+  B --> C[preventDefault]
+  C --> D[setErrors]
+  D --> E[Re-render with error elements]
+  style D fill:#1e3a5f,stroke:#3b82f6,color:#bfdbfe
+  style E fill:#14532d,stroke:#22c55e,color:#86efac
+```
+
+<div text-sm op-50 mt-2>Suppresses native tooltip, syncs error to React state, renders inline.</div>
+</div>
+
+<!--
+Form 4 — we suppress the native tooltip with preventDefault, store errors in React state with setErrors, and React re-renders to show error paragraphs inline beneath each field. This is the practical approach most teams will use.
+-->
+
+---
+layout: center
+glowSeed: 108
+---
+
+<div>
+
+<h1 text-3xl mb-6>Are form errors even state?</h1>
+
+<div grid grid-cols-2 gap-8 pt-2>
+
+<div>
+  <div font-semibold text-blue-400 mb-3>React’s “Thinking in React” rules:</div>
+  <div flex flex-col gap-3>
+    <div flex items-start gap-2>
+      <div i-ph:check-circle text-green-400 mt-1 />
+      <span text-sm>Does it change over time? <span op-50>Yes — errors appear and clear.</span></span>
+    </div>
+    <div flex items-start gap-2>
+      <div i-ph:check-circle text-green-400 mt-1 />
+      <span text-sm>Is it passed from a parent? <span op-50>No.</span></span>
+    </div>
+    <div flex items-start gap-2>
+      <div i-ph:warning-circle text-yellow-400 mt-1 />
+      <span text-sm>Can you compute it from existing data? <span font-semibold text-yellow-400>Yes.</span></span>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div font-semibold text-green-400 mb-3>The browser already knows:</div>
+
+```js
+// Always available on the DOM node
+field.validity.valueMissing  // true/false
+field.validity.typeMismatch  // true/false
+field.validationMessage      // “Email is required”
+```
+
+  <div text-sm op-50 mt-3>Errors are derived from the DOM — not application state.</div>
+</div>
+
+</div>
+
+</div>
+
+<!--
+Here’s something interesting. React’s own docs say: if you can compute it from existing data, it’s not state. With native validation, the browser always knows the error — field.validity and field.validationMessage are right there on the DOM node. So by React’s own definition, form errors aren’t state. We only store them in useState because we need to trigger a re-render to show error paragraphs. The browser is the real source of truth — we’re just syncing it into React.
+  We only put errors in <code>useState</code> because we need React to re-render. The browser is the source of truth.
+-->
+
+---
+layout: iframe
+url: https://forms-comparison.vercel.app/
+---
+<!--
+Let me show you this live. This is a side-by-side comparison app — Formik, React Hook Form, and our Web API approach. Watch the re-render counters as I type in each form. Notice how Formik’s counter climbs on every keystroke, while the native form stays at zero until I submit with invalid fields.
+-->
+
 ---
 glowSeed: 210
 ---
@@ -781,10 +921,6 @@ glowSeed: 210
   </div>
 </div>
 
-</div>
-
-<div v-click mt-6 p-3 rounded bg-green-900 bg-op-20 border border-green-500 border-op-30 text-center>
-  For most forms, you'll get WCAG 2.1 AA compliance "for free"—but always test with real users and assistive tech.
 </div>
 
 <!--
