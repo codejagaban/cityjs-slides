@@ -62,7 +62,6 @@ glowSeed: 42
 title: The Cost of "Convenience"
 ---
 <div>
-<!-- <p text-sm uppercase tracking-widest op-40 mb-2>Chapter 01</p> -->
 
 <h1>
 Managing Forms in React is Hard
@@ -73,6 +72,52 @@ Managing Forms in React is Hard
 
 <!--
 Let's be real — if you've ever built a non-trivial form in React, you know the pain. Controlled inputs, validation state, error messages, touched fields, submit handling — it's a lot of boilerplate. That's exactly why form libraries exist. But let's look at what they actually cost us.
+-->
+
+---
+glowSeed: 43
+---
+
+# The Evolution of Form Handling
+
+<div pt-4 flex flex-col gap-4>
+
+<div v-click flex items-center gap-4>
+  <div w-12 h-12 rounded-full bg-zinc-700 flex items-center justify-center text-2xl shrink-0>🧠</div>
+  <div flex-1>
+    <div font-semibold>useState for every field</div>
+    <div text-xs op-40 font-mono>const [name, setName] = useState("") // x5 fields...</div>
+  </div>
+</div>
+
+<div v-click flex items-center gap-4>
+  <div w-12 h-12 rounded-full bg-zinc-600 flex items-center justify-center text-2xl shrink-0>🧠</div>
+  <div flex-1>
+    <div font-semibold>Formik + validation schema</div>
+    <div text-xs op-40 font-mono>useFormik + validationSchema + handleSubmit + ...</div>
+  </div>
+</div>
+
+<div v-click flex items-center gap-4>
+  <div w-12 h-12 rounded-full bg-blue-900 flex items-center justify-center text-2xl shrink-0>🧠</div>
+  <div flex-1>
+    <div font-semibold>React Hook Form + Zod</div>
+    <div text-xs op-40 font-mono>useForm + zodResolver + register + handleSubmit + ...</div>
+  </div>
+</div>
+
+<div v-click flex items-center gap-4>
+  <div w-14 h-14 rounded-full bg-purple-900 flex items-center justify-center text-3xl shrink-0 border="2px solid rgba(168,85,247,0.5)">✨</div>
+  <div flex-1>
+    <div font-semibold text-lg text-green-400>Just use the platform</div>
+    <div text-xs op-40 font-mono>&lt;input required type="email" /&gt;</div>
+  </div>
+</div>
+
+</div>
+
+<!--
+Here's the evolution most React developers go through with forms. First, useState for every single field — painful but it works. Then you discover Formik with a validation schema — better DX but heavy. Then React Hook Form with Zod — lighter, smarter. But the galaxy brain move? Just use the platform. An input with required and type="email" has been doing validation since 2011.
 -->
 
 ---
