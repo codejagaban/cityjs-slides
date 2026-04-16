@@ -739,6 +739,8 @@ For optimization, you could batch these updates or use a useRef hook to avoid mu
 but the point is — you don't need a library to do this. The native APIs give you everything you need to build a fully featured form experience with just a few lines of code.
 -->
 
+<!-- “React encourages declarative UI, but it doesn’t forbid imperative code.
+In this case, I’m intentionally keeping form state out of React to avoid unnecessary renders and to lean on native browser behavior.” -->
 ---
 glowSeed: 210
 ---
