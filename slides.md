@@ -61,13 +61,14 @@ layout: center
 glowSeed: 42
 title: The Cost of "Convenience"
 ---
-<div>
 
-<h1>
-Managing Forms in React is Hard
-</h1>
+<div flex flex-col items-center gap-4>
 
-<p text-lg op-50 mt-4>Managing form state and validation logic in React is hard.</p>
+<img src="/meme.jpg" w-100 rounded-lg shadow-xl />
+
+<p> Managing forms in React be like...</p>
+
+
 </div>
 
 <!--
@@ -238,6 +239,51 @@ function ContactForm() {
 
 <!--
 Now the other half of the combo — React 19 Form Actions. The form element can now accept a function as its action prop. When the user submits, React calls your function with native FormData — no controlled inputs, no onChange handlers, no state management. useActionState gives you a pending boolean for loading states and a way to return errors from the server. Notice how clean this code is compared to the useForm plus zodResolver plus handleSubmit pattern we're used to.
+-->
+
+---
+glowSeed: 220
+---
+
+# Styling Native Validation
+
+<div grid grid-cols-2 gap-8 pt-2>
+
+<div>
+
+```css
+/* Only fires AFTER user interacts */
+input:user-invalid {
+  border-color: #e74c3c;
+  background: #fdecec;
+}
+
+input:user-valid {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+```
+
+</div>
+
+<div flex flex-col gap-4 pt-2>
+
+<div v-click>
+  <div font-semibold text-red-400><code>:user-invalid</code></div>
+  <div text-sm op-60>Only fires after user interaction. No flash of red on page load. Replaces library "dirty" state.</div>
+</div>
+
+<div v-click>
+  <div font-semibold text-green-400><code>:user-valid</code></div>
+  <div text-sm op-60>Confirms valid input in real time. Replaces library "touched" state. Zero JavaScript.</div>
+</div>
+
+</div>
+
+</div>
+
+<!--
+Here's a CSS feature many people don't know about — user-invalid and user-valid pseudo-classes. Unlike the old invalid pseudo-class which fires immediately on page load, user-invalid only fires AFTER the user has interacted with the field. No more flash of red errors on a fresh form. And user-valid gives real-time positive feedback as the user types. This completely replaces the dirty and touched state tracking that form libraries provide — with zero JavaScript.
 -->
 
 ---
@@ -664,7 +710,7 @@ glowSeed: 210
 
 # Accessible by Default
 
-<div pt-4 grid grid-cols-2 gap-6>
+<div pt-4 grid grid-cols-2 gap-8>
 
 <div v-click flex items-start gap-3>
   <div i-ph:speaker-high text-2xl text-blue-400 mt-1 />
@@ -698,11 +744,59 @@ glowSeed: 210
   </div>
 </div>
 
+<div v-click flex items-start gap-3>
+  <div i-ph:package text-2xl text-green-400 mt-1 />
+  <div>
+    <div font-semibold>Lower JavaScript bundle</div>
+    <div text-sm op-50>Less JS to parse, faster time-to-interactive on slow devices</div>
+  </div>
+</div>
+
+<div v-click flex items-start gap-3>
+  <div i-ph:lightning text-2xl text-yellow-400 mt-1 />
+  <div>
+    <div font-semibold>Fewer re-renders</div>
+    <div text-sm op-50>Uncontrolled inputs mean React does no work during typing</div>
+  </div>
+</div>
+
 </div>
 
 <!--
 One thing I love about the native approach is that accessibility comes built in. Screen readers automatically announce validation errors from the Constraint Validation API. The browser sets aria-invalid on invalid fields. Focus automatically moves to the first invalid field on submit. And React 19's form actions preserve all of this native behavior — they don't break the semantics. For most forms, you get WCAG 2.1 AA compliance without writing a single aria attribute.
 -->
+
+---
+glowSeed: 140
+---
+
+# Bundle Size
+
+<p op-40 mb-4>Gzipped production builds</p>
+
+<div grid grid-cols-3 gap-8 text-center pt-4>
+
+<div v-click>
+  <div text-5xl font-extrabold text-red-400>18.69KB</div>
+  <div text-base op-70 mt-2>Formik</div>
+</div>
+
+<div v-click>
+  <div text-5xl font-extrabold text-yellow-400>10.44KB</div>
+  <div text-base op-70 mt-2>React Hook Form</div>
+</div>
+
+<div v-click>
+  <div text-5xl font-extrabold text-green-400>1.66KB</div>
+  <div text-base op-70 mt-2>Web APIs + useActionState</div>
+</div>
+
+</div>
+
+<!--
+Let's talk bundle size from actual production builds. Formik adds nearly 19 kilobytes gzipped. React Hook Form is about 10 kilobytes. Our approach? Just 1.66 kilobytes — and that's mostly React's own useActionState. The validation runs in the browser engine at zero cost.
+-->
+
 ---
 glowSeed: 230
 ---
@@ -746,11 +840,6 @@ glowSeed: 230
 </div>
 
 </div>
-
-<!-- <div v-click mt-6 text-center>
-  <span text-green-400>Native covers most forms usecases.</span>
-  <span op-50> For the other 20%, you still don't need a library.</span>
-</div> -->
 
 <!--
 I want to be honest about the limitations. Dynamic field arrays — like adding multiple addresses — still need manual state management. Multi-step wizard forms with cross-step validation need your own logic. Async validation like checking if a username is taken requires custom JavaScript. And complex cross-field rules like confirm password need explicit code. But here's the thing — native APIs cover about 80 percent of real-world forms. And for the other 20 percent, you can write a small custom hook. You still don't need a full form library.
