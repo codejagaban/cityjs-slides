@@ -534,7 +534,7 @@ transition: none
 
 ````md magic-move {maxHeight:'600px'}
 
-```jsx{1,5,12}
+```jsx{1,5,11-24}
 import { useActionState, useState } from "react";
 
 export default function ContactForm() {
@@ -545,12 +545,20 @@ export default function ContactForm() {
     <div>
       <form
         action={action}
-        onInvalid={(e) => {
-          e.preventDefault();
-          const field = e.target;
-          field.setCustomValidity(formatError(field));
-        }}
+        noValidate
+        onSubmit={event => {
+        const form = event.currentTarget;
 
+        for (const input of form.elements) {
+          if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+            input.setCustomValidity(formatError(input));
+          }
+        }
+
+        if (!form.reportValidity()) {
+          event.preventDefault();
+        }
+      }}
       >
         <div>
           <label htmlFor="name">Name</label>
@@ -583,7 +591,7 @@ export default function ContactForm() {
   );
 }
 ```
-```jsx{15-18}
+```jsx{15-18,31}
 import { useActionState, useState } from "react";
 
 export default function ContactForm() {
@@ -594,16 +602,32 @@ export default function ContactForm() {
     <div>
       <form
         action={action}
-        onInvalid={(e) => {
-          e.preventDefault();
-          const field = e.target;
-          field.setCustomValidity(formatError(field));
-          setErrors((prev) => ({
-            ...prev,
-            [field.name]: field.validationMessage,
-          }));
-        }}
+        noValidate
+        onInvalid={event => {
+        const input = event.target;
 
+        setErrors((error) => ({
+          ...error,
+          [input.name]: input.validationMessage,
+        }));
+
+        event.preventDefault();
+      }}
+      onSubmit={event => {
+        const form = event.currentTarget;
+
+        for (const input of form.elements) {
+          if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+            input.setCustomValidity(formatError(input));
+          }
+        }
+
+        setErrors({});
+
+        if (!form.reportValidity()) {
+          event.preventDefault();
+        }
+      }}
       >
         <div>
           <label htmlFor="name">Name</label>

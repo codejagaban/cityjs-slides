@@ -40,33 +40,6 @@ export default function Form5() {
     };
   }
 
-  function setFieldError(field) {
-    const error = formatError(field);
-    field.setCustomValidity(error);
-    const errorEl = errorRefs.current[field.name];
-    if (errorEl) errorEl.textContent = error;
-  }
-
-  // function handleInvalid(e) {
-  //   e.preventDefault();
-  //   setFieldError(e.target);
-  // }
-
-  // function handleBlur(e) {
-  //   const field = e.target;
-  //   field.setCustomValidity('');
-  //   const errorEl = errorRefs.current[field.name];
-  //   if (!errorEl) return;
-
-  //   if (field.checkValidity()) {
-  //     errorEl.textContent = '';
-  //   } else {
-  //     const error = formatError(field);
-  //     field.setCustomValidity(error);
-  //     errorEl.textContent = error;
-  //   }
-  // }
-
   function validate(e) {
     e.preventDefault();
     const field = e.target;
@@ -84,8 +57,8 @@ export default function Form5() {
       <form
         action={action}
         style={formStyle}
-        onInvalid={handleInvalid}
-        onBlur={handleBlur}
+        onInvalid={validate}
+        onBlur={validate}
       >
         <p>Custom message with ref </p>
         <div style={fieldGroupStyle}>

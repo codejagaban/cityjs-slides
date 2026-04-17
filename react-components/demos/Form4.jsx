@@ -30,41 +30,41 @@ function formatError(field) {
 }
 
 export default function Form4() {
-  const [, action, isPending] = useActionState(contactAction, null);
+  // We use the first value (state) to capture server-side feedback
+  const [serverState, action, isPending] = useActionState(contactAction, null);
   const [errors, setErrors] = useState({});
-
-  function handleInvalid(e) {
-    e.preventDefault();
-    const field = e.target;
-    const error = formatError(field);
-    field.setCustomValidity(error);
-    setErrors((prev) => ({
-      ...prev,
-      [field.name]: error,
-    }));
-  }
-
-  function handleBlur(e) {
-    const field = e.target;
-    field.setCustomValidity('');
-    if (field.checkValidity()) {
-      if (errors[field.name]) {
-        setErrors((prev) => ({ ...prev, [field.name]: '' }));
-      }
-    } else {
-      const error = formatError(field);
-      field.setCustomValidity(error);
-      setErrors((prev) => ({ ...prev, [field.name]: error }));
-    }
-  }
 
   return (
     <div style={cardStyle}>
       <form
         action={action}
         style={formStyle}
-        onInvalid={handleInvalid}
-        onBlur={handleBlur}
+        noValidate
+        onInvalid={event => {
+        const input = event.target;
+
+        setErrors((error) => ({
+          ...error,
+          [input.name]: input.validationMessage,
+        }));
+
+        event.preventDefault();
+      }}
+      onSubmit={event => {
+        const form = event.currentTarget;
+
+        for (const input of form.elements) {
+          if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+            input.setCustomValidity(formatError(input));
+          }
+        }
+
+        setErrors({});
+
+        if (!form.reportValidity()) {
+          event.preventDefault();
+        }
+      }}
       >
         <h6>Custom message with state management</h6>
         <div style={fieldGroupStyle}>
