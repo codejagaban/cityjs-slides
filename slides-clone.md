@@ -46,7 +46,7 @@ glowSeed: 10
 <div flex items-center gap-12>
 
 <div flex flex-col gap-3>
-  <h1 text-4xl font-extrabold>Trust Jamin Okpukoro</h1>
+  <h1 text-4xl font-extrabold>Trust Jamin</h1>
   <p text-lg op-60>Developer Advocate at Uploadcare</p>
   <div flex gap-3 mt-2 op-40 text-sm>
     <span>@codejagaban</span>
@@ -1293,7 +1293,7 @@ title: Thanks
 
 <h1 text-5xl>Thanks</h1>
 
-<p text-lg op-50>Jamin Okpukoro · XtremeJS 2026</p>
+<p text-lg op-50>Trust Jamin · XtremeJS 2026</p>
 
 </div>
 
