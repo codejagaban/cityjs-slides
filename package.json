@@ -1,10 +1,10 @@
 {
-  "name": "replacing-form-libraries-cityjs",
+  "name": "replacing-form-libraries-xtremejs",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "slidev --open",
-    "build": "slidev build",
+    "build": "slidev build --remote",
     "export": "slidev export --with-clicks --per-slide --wait-until none"
   },
   "devDependencies": {

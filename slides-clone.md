@@ -11,7 +11,7 @@ css: unocss
 colorSchema: dark
 transition: fade-out
 title: Replacing Form Libraries with Native Web APIs
-exportFilename: CityJS 2026 - Replacing Form Libraries
+exportFilename: XtremeJS 2026 - Replacing Form Libraries
 lineNumbers: true
 drawings:
   persist: false
@@ -41,7 +41,7 @@ layout: center
 glowSeed: 10
 ---
 
-<img src="/uc-logo.png" w-30 absolute top-6 right-6 />
+<img src="/uc-logo.svg" w-30 absolute top-6 right-6 />
 
 <div flex items-center gap-12>
 
@@ -1266,7 +1266,7 @@ layout: center
 glowSeed: 260
 title: It's Still the Web
 ---
-<img src="/uc-logo.png" w-40 absolute top-6 right-6 />
+<img src="/uc-logo.svg" w-40 absolute top-6 right-6 />
 
 <div>
 
@@ -1287,13 +1287,13 @@ layout: center
 glowSeed: 300
 title: Thanks
 ---
-<img src="/uc-logo.png" w-40 absolute top-6 right-6 />
+<img src="/uc-logo.svg" w-40 absolute top-6 right-6 />
 
 <div flex flex-col items-center gap-6>
 
 <h1 text-5xl>Thanks</h1>
 
-<p text-lg op-50>Jamin Okpukoro · CityJS 2026</p>
+<p text-lg op-50>Jamin Okpukoro · XtremeJS 2026</p>
 
 </div>
 

@@ -1,6 +1,6 @@
 ---
 layout: image
-image: /jamin.png
+image: /cover-xtremejs.png
 backgroundSize: cover
 backgroundPosition: center
 class: cover-slide
@@ -11,7 +11,7 @@ css: unocss
 colorSchema: dark
 transition: fade-out
 title: Replacing Form Libraries with Native Web APIs
-exportFilename: CityJS 2026 - Replacing Form Libraries
+exportFilename: XtremeJS 2026 - Replacing Form Libraries
 lineNumbers: true
 drawings:
   persist: false
@@ -23,8 +23,9 @@ routerMode: hash
 contextMenu: true
 comark: true
 fonts:
-  sans: Bricolage Grotesque
-  mono: JetBrains Mono
+  sans: InterVariable
+  mono: CommitMono
+  provider: none
 addons:
   - slidev-addon-react
 ---
@@ -38,7 +39,6 @@ layout: center
 glowSeed: 10
 ---
 
-<img src="/uc-logo.png" w-30 absolute top-6 right-6 />
 
 <div flex items-center gap-12>
 
@@ -98,7 +98,7 @@ glowSeed: 100
 
 | API | Chrome | Firefox | Safari | Replaces |
 |---|---|---|---|---|
-| Constraint Validation | ✓ | ✓ | ✓ | Most validation use-cases |
+| Constraint Validation API | ✓ | ✓ | ✓ | Most validation use-cases |
 | React 19 Form Actions | ✓ | ✓ | ✓ | Most state management for forms |
 | `:user-valid` / `:user-invalid` | ✓ | ✓ | ✓ | touched / dirty state |
 
@@ -291,7 +291,7 @@ glowSeed: 105
 transition: none
 ---
 
-<div grid grid-cols-5 gap-8 pt-2>
+<div grid grid-cols-5 gap-8 pt-10>
 
 <div grid-col-span-2>
 <React is="Form" />
@@ -357,7 +357,7 @@ glowSeed: 105
 transition: none
 ---
 
-<div grid grid-cols-5 gap-8 pt-2>
+<div grid grid-cols-5 gap-8 pt-10>
 
 <div grid-col-span-2>
 <React is="Form2" />
@@ -421,7 +421,7 @@ glowSeed: 106
 transition: none
 ---
 
-<div grid grid-cols-5 gap-8 pt-2>
+<div grid grid-cols-5 gap-8 pt-10>
 
 <div grid-col-span-2>
 <React is="Form3" />
@@ -523,7 +523,7 @@ glowSeed: 106
 transition: none
 ---
 
-<div grid grid-cols-5 gap-8 pt-2>
+<div grid grid-cols-5 gap-8 pt-10>
 <div grid-col-span-2>
 <React is="Form4" />
 </div>
@@ -532,7 +532,7 @@ transition: none
 
 <div class="code-sample-sx">
 
-````md magic-move {maxHeight:'600px'}
+````md magic-move {maxHeight:'540px'}
 
 ```jsx{1,5,11-24}
 import { useActionState, useState } from "react";
@@ -923,7 +923,6 @@ glowSeed: 260
 title: It's Still the Web
 ---
 <div>
-<img src="/uc-logo.png" w-40 absolute top-6 right-6 />
 <h1>
   It's Still the Web
 </h1>
@@ -941,12 +940,11 @@ glowSeed: 300
 title: Thanks
 ---
 
-<img src="/uc-logo.png" w-40 absolute top-6 right-6 />
 <div flex flex-col items-center gap-6>
 
 <h1 text-5xl>Thanks</h1>
 
-<p text-lg op-50>Trust Jamin Okpukoro · CityJS 2026</p>
+<p text-lg op-50>Trust Jamin Okpukoro · XtremeJS 2026</p>
 
 </div>
 

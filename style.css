@@ -1,3 +1,53 @@
+/* Uploadcare brand: tokens from uploadcare.com (see growth-demos README) */
+@font-face {
+  font-family: 'InterVariable';
+  src: url('https://demo.ucarecd.net/e83d4de7-cd38-4bdb-8ca2-2e4922ee103f/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CommitMono';
+  src: url('https://demo.ucarecd.net/fedd4576-ce35-4b8e-9dba-a38f8403bddd/CommitMono-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+:root {
+  --uc-bg: #090909;
+  --uc-yellow: #ffcf3e;
+  --uc-blue: #002fff;
+  --uc-font-sans: 'InterVariable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --uc-font-mono: 'CommitMono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --slidev-theme-primary: var(--uc-yellow);
+}
+
+.slidev-layout {
+  font-family: var(--uc-font-sans);
+}
+
+.slidev-layout h1,
+.slidev-layout h2 {
+  letter-spacing: -0.03em;
+}
+
+/* Accents in brand yellow */
+.slidev-layout h1 em,
+.slidev-layout h1 i,
+.slidev-layout strong {
+  color: var(--uc-yellow);
+}
+
+.slidev-layout a {
+  color: var(--uc-yellow);
+  border-bottom-color: rgb(255 207 62 / 0.4);
+}
+
+::selection {
+  background: var(--uc-yellow);
+  color: #000;
+}
+
 :root {
   --slidev-code-padding: 8px 10px;
   --slidev-code-background: #16161690 !important;
@@ -33,7 +83,21 @@ h6 {
 }
 
 .dark #slide-content {
-  background-color: black !important;
+  background-color: var(--uc-bg) !important;
+}
+
+/* Faint grid, like uploadcare.com */
+.dark #slide-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
 }
 
 /* Transitions */
@@ -77,7 +141,7 @@ h6 {
   backdrop-filter: blur(10px);
   border: 1px solid #eee1;
   font-variant-ligatures: none;
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-family: var(--uc-font-mono) !important;
 }
 
 .slidev-code code,
@@ -109,7 +173,7 @@ iframe {
   margin-top: 12px;
   opacity: 0.9;
   font-size: 12px;
-  font-family: sans-serif;
+  font-family: var(--uc-font-sans);
 }
 
 .footnotes>.footnotes-list p {

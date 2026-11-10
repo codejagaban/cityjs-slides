@@ -22,7 +22,7 @@ type Distribution =
 
 const formatter = computed(() => (currentSlideRoute.value.meta?.slide as any)?.frontmatter || {})
 const distribution = computed(() => (formatter.value.glow || 'full') as Distribution)
-const opacity = computed<number>(() => +(formatter.value.glowOpacity ?? 0.4))
+const opacity = computed<number>(() => +(formatter.value.glowOpacity ?? 0.3))
 const hue = computed<number>(() => +(formatter.value.glowHue || 0))
 const seed = computed<string>(() => (formatter.value.glowSeed === 'false' || formatter.value.glowSeed === false)
   ? Date.now().toString()
@@ -146,16 +146,16 @@ const poly3 = usePloy(3)
       aria-hidden="true"
     >
       <div
-        class="clip bg-gradient-to-r from-[#18549a] to-[#12238b]"
+        class="clip bg-gradient-to-r from-[#002fff] to-[#001a8c]"
         :style="{ 'clip-path': `polygon(${poly1})`, 'opacity': opacity }"
       />
       <div
-        class="clip bg-gradient-to-l from-[#18549a] to-[#12238b]"
+        class="clip bg-gradient-to-l from-[#002fff] to-[#001a8c]"
         :style="{ 'clip-path': `polygon(${poly2})`, 'opacity': opacity }"
       />
       <div
-        class="clip bg-gradient-to-t from-[#01b6d1] to-[#aaf7ff]"
-        :style="{ 'clip-path': `polygon(${poly3})`, 'opacity': 0.2 }"
+        class="clip bg-gradient-to-t from-[#1f4bff] to-[#002fff]"
+        :style="{ 'clip-path': `polygon(${poly3})`, 'opacity': 0.12 }"
       />
     </div>
   </div>
